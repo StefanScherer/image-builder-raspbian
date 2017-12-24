@@ -1,6 +1,14 @@
 #!/bin/bash -e
 curl -o kernel-qemu-4.4.34-jessie https://github.com/dhruvvyas90/qemu-rpi-kernel/blob/master/kernel-qemu-4.4.34-jessie?raw=true 
 
+sudo apt-get update && \
+    DEBIAN_FRONTEND=noninteractive sudo apt-get install -y \
+    binfmt-support \
+    qemu \
+    qemu-user-static \
+    --no-install-recommends
+    
+    
 export IMG_DATE=${IMG_DATE:-"$(date -u +%Y-%m-%d)"}
 
 echo "Unzip image"
