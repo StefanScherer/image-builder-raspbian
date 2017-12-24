@@ -2,7 +2,6 @@ version: 2
 jobs:
   build:
     machine: true
-    working_directory: /work
     steps:
       - checkout
 
@@ -11,4 +10,4 @@ jobs:
           command: ./build.sh
 
       - store_artifacts:
-          path: /work/pi-gen/deploy
+          path: pi-gen/deploy
