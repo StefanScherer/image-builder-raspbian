@@ -26,7 +26,6 @@ sudo mount -v -o "offset=${ROOT_OFFSET}" -t ext4 "${IMG_FILE}" /mnt/hypriotos
 sudo sed -i 's/mmcblk0p/sda/g' /mnt/hypriotos/etc/fstab 
 sudo umount /mnt/hypriotos
 
-npm install -g wait-port
 pushd test
 bundle install
 popd
@@ -35,7 +34,31 @@ echo "Booting image"
 qemu-system-arm -kernel kernel-qemu-4.4.34-jessie -cpu arm1176 -m 256 -M versatilepb -serial stdio -append "root=/dev/sda2 rootfstype=ext4 rw" -hda "${IMG_FILE}" -redir tcp:5022::22 -no-reboot &
 
 echo "Waiting for SSH port"
-wait-port localhost:5022
+set +e
+maxConnectionAttempts=20
+sleepSeconds=20
+index=1
+
+testssh() {
+  expect <<- EOF
+    spawn ssh -p 5022 -o StrictHostKeyChecking=no pirate@localhost "exit"
+    expect "assword:"
+    send "hypriot\r"
+    interact
+EOF
+}
+
+while (( $index <= $maxConnectionAttempts ))
+do
+  testssh
+  case $? in
+    (0) echo "${index}> Success"; break ;;
+    (*) echo "${index} of ${maxConnectionAttempts}> SSH server not ready yet, waiting ${sleepSeconds} seconds..." ;;
+  esac
+  sleep $sleepSeconds
+  ((index+=1))
+done
+set -e
 
 pushd test
 BOARD=localhost PORT=5022 bin/rspec
