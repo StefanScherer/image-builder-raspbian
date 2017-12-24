@@ -11,3 +11,7 @@ jobs:
 
       - store_artifacts:
           path: pi-gen/deploy
+
+      - run:
+          name: "Test image"
+          command: ./test.sh
