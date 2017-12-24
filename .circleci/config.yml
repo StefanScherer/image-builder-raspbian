@@ -4,5 +4,5 @@ jobs:
     machine: true
     steps:
       - checkout
-      - run: chmod +x ./build.sh && ./build.sh
+      - run: ./build.sh
  
