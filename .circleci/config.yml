@@ -7,8 +7,8 @@ jobs:
       - checkout
 
       - run:
-        name: "Build image"
-        command: ./build.sh
+          name: "Build image"
+          command: ./build.sh
 
       - store_artifacts:
-        path: /work/pi-gen/deploy
+          path: /work/pi-gen/deploy
