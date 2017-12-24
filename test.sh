@@ -13,10 +13,10 @@ ROOT_OFFSET=$(echo "$PARTED_OUT" | grep -e '^ 2'| xargs echo -n \
 | cut -d" " -f 2 | tr -d B)
 
 echo "ROOT_OFFSET: $ROOT_OFFSET"
-mkdir /mnt/hypriotos
-mount -v -o "offset=${ROOT_OFFSET}" -t ext4 "${IMG_FILE}" /mnt/hypriotos
-sed -i 's/mmcblk0p/sda/g' /mnt/hypriotos/etc/fstab 
-umount /mnt/hypriotos
+sudo mkdir /mnt/hypriotos
+sudo mount -v -o "offset=${ROOT_OFFSET}" -t ext4 "${IMG_FILE}" /mnt/hypriotos
+sudo sed -i 's/mmcblk0p/sda/g' /mnt/hypriotos/etc/fstab 
+sudo umount /mnt/hypriotos
 
 npm install -g wait-port
 pushd test
