@@ -15,7 +15,7 @@ git checkout "$PI_GEN_TAG"
 
 echo "Preparing build"
 echo IMG_NAME='hypriotos' >config
-cp -r ../stage2/ stage2
+cp -r ../stage2/ .
 touch stage3/SKIP
 touch stage4/SKIP
 rm -f stage4/EXPORT*
