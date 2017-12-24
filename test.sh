@@ -6,6 +6,7 @@ sudo apt-get update && \
     binfmt-support \
     qemu \
     qemu-user-static \
+    expect \
     --no-install-recommends
     
     
