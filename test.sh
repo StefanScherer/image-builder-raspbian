@@ -47,6 +47,7 @@ set +e
 maxConnectionAttempts=20
 sleepSeconds=20
 index=1
+success=0
 
 testssh() {
   expect <<- EOF
@@ -62,9 +63,12 @@ while (( $index <= $maxConnectionAttempts ))
 do
   testssh
   case $? in
-    (0) echo "${index}> Success"; break ;;
-    (*) echo "${index} of ${maxConnectionAttempts}> SSH server not ready yet, waiting ${sleepSeconds} seconds..." ;;
+    (0) echo "${index}> Success"; ((success+=1)); break ;;
+    (*) echo "${index} of ${maxConnectionAttempts}> SSH server not ready yet, waiting ${sleepSeconds} seconds..."; success=0 ;;
   esac
+  if [ $success -eq 2 ]; then
+    break
+  fi
   sleep $sleepSeconds
   ((index+=1))
 done
