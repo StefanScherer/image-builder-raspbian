@@ -1,5 +1,5 @@
 #!/bin/bash -e
-curl -o kernel-qemu-4.4.34-jessie https://github.com/dhruvvyas90/qemu-rpi-kernel/blob/master/kernel-qemu-4.4.34-jessie?raw=true 
+curl -L -o kernel-qemu-4.4.34-jessie https://github.com/dhruvvyas90/qemu-rpi-kernel/blob/master/kernel-qemu-4.4.34-jessie?raw=true
 
 sudo apt-get update && \
     DEBIAN_FRONTEND=noninteractive sudo apt-get install -y \
@@ -11,20 +11,25 @@ sudo apt-get update && \
     
     
 export IMG_DATE=${IMG_DATE:-"$(date -u +%Y-%m-%d)"}
-
-echo "Unzip image"
-unzip "pi-gen/deploy/image_${IMG_DATE}-hypriotos-lite.zip"
-
 export IMG_FILE=${IMG_DATE}-hypriotos-lite.img
+export IMG_FILE=hypriotos-rpi-v1.7.1.img
+export IMG_FILE=hypriotos-rpi-v1.5.0.img
+
+if [ ! -f "$IMG_FILE" ]; then
+  echo "Unzip image"
+  unzip "pi-gen/deploy/image_${IMG_DATE}-hypriotos-lite.zip"
+fi
 
 PARTED_OUT=$(parted -s "${IMG_FILE}" unit b print)
 ROOT_OFFSET=$(echo "$PARTED_OUT" | grep -e '^ 2'| xargs echo -n \
 | cut -d" " -f 2 | tr -d B)
 
 echo "ROOT_OFFSET: $ROOT_OFFSET"
-sudo mkdir /mnt/hypriotos
+sudo mkdir -p /mnt/hypriotos
 sudo mount -v -o "offset=${ROOT_OFFSET}" -t ext4 "${IMG_FILE}" /mnt/hypriotos
 sudo sed -i 's/mmcblk0p/sda/g' /mnt/hypriotos/etc/fstab 
+sudo sed -i 's/PARTUUID.*-0/\/dev\/sda/' /mnt/hypriotos/etc/fstab
+sudo rm -f /mnt/hypriotos/etc/ld.so.preload
 sudo umount /mnt/hypriotos
 
 pushd test
@@ -42,9 +47,10 @@ index=1
 
 testssh() {
   expect <<- EOF
-    spawn ssh -p 5022 -o StrictHostKeyChecking=no pirate@localhost "exit"
+    spawn ssh -p 5022 -o StrictHostKeyChecking=no pirate@localhost "cat /etc/os-release"
     expect "assword:"
     send "hypriot\r"
+    expect "raspbian"
     interact
 EOF
 }
