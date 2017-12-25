@@ -52,6 +52,7 @@ index=1
 success=0
 
 testssh() {
+  Testing SSH connection
   expect <<- EOF
     spawn ssh -p 5022 -o StrictHostKeyChecking=no pirate@localhost "cat /etc/os-release"
     expect "assword:"
@@ -68,7 +69,7 @@ do
     (0) echo "${index}> Success"; ((success+=1)); break ;;
     (*) echo "${index} of ${maxConnectionAttempts}> SSH server not ready yet, waiting ${sleepSeconds} seconds..."; success=0 ;;
   esac
-  if [ $success -eq 2 ]; then
+  if [ $success -eq 3 ]; then
     break
   fi
   sleep $sleepSeconds
@@ -76,7 +77,13 @@ do
 done
 set -e
 
+echo Sleeping another 30 seconds
+sleep 30
+echo Sleeping another 30 seconds
+sleep 30
+
 pushd test
+echo Running serverspec tests
 BOARD=localhost PORT=5022 bin/rspec
 popd
 
