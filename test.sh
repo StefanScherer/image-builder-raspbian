@@ -52,7 +52,7 @@ index=1
 success=0
 
 testssh() {
-  Testing SSH connection
+  echo Testing SSH connection
   expect <<- EOF
     spawn ssh -p 5022 -o StrictHostKeyChecking=no pirate@localhost "cat /etc/os-release"
     expect "assword:"
@@ -66,7 +66,7 @@ while (( $index <= $maxConnectionAttempts ))
 do
   testssh
   case $? in
-    (0) echo "${index}> Success"; ((success+=1)); break ;;
+    (0) echo "${index}> Success"; ((success+=1));;
     (*) echo "${index} of ${maxConnectionAttempts}> SSH server not ready yet, waiting ${sleepSeconds} seconds..."; success=0 ;;
   esac
   if [ $success -eq 3 ]; then
@@ -77,8 +77,6 @@ do
 done
 set -e
 
-echo Sleeping another 30 seconds
-sleep 30
 echo Sleeping another 30 seconds
 sleep 30
 
