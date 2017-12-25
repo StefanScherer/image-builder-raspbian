@@ -12,8 +12,6 @@ sudo apt-get update && \
     
 export IMG_DATE=${IMG_DATE:-"$(date -u +%Y-%m-%d)"}
 export IMG_FILE=${IMG_DATE}-hypriotos-lite.img
-export IMG_FILE=hypriotos-rpi-v1.7.1.img
-export IMG_FILE=hypriotos-rpi-v1.5.0.img
 
 if [ ! -f "$IMG_FILE" ]; then
   echo "Unzip image"
