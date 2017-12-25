@@ -10,10 +10,11 @@ sudo apt-get update && \
     --no-install-recommends
 
 ZIP_FILE=$(ls -1 pi-gen/deploy/image_*-hypriotos-lite.zip | tail -1)
-IMG_FILE=$(ls -1 *-hypriotos-lite.img | tail -1)
 
 echo "Unzip image"
 unzip "$ZIP_FILE"
+
+IMG_FILE=$(ls -1 *-hypriotos-lite.img | tail -1)
 
 PARTED_OUT=$(parted -s "${IMG_FILE}" unit b print)
 ROOT_OFFSET=$(echo "$PARTED_OUT" | grep -e '^ 2'| xargs echo -n \
