@@ -10,7 +10,7 @@ end
 
 describe command('dpkg -l docker-ce') do
   its(:stdout) { should match /ii  docker-ce/ }
-  its(:stdout) { should match /17.11.0~ce-0~raspbian/ }
+  its(:stdout) { should match /17.09.0~ce-0~raspbian/ }
   its(:stdout) { should match /armhf/ }
   its(:exit_status) { should eq 0 }
 end
@@ -76,21 +76,14 @@ describe file('/var/lib/docker/overlay2') do
   it { should be_owned_by 'root' }
 end
 
-describe file('/etc/bash_completion.d/docker') do
-  it { should be_file }
-  it { should be_mode 644 }
-  it { should be_owned_by 'root' }
-  it { should be_file }
-end
-
 describe command('docker -v') do
-  its(:stdout) { should match /Docker version 17.11.0-ce, build/ }
+  its(:stdout) { should match /Docker version 17.09.0-ce, build/ }
   its(:exit_status) { should eq 0 }
 end
 
 describe command('docker version') do
-  its(:stdout) { should match /Client:. Version:      17.11.0-ce. API version:  1.34/m }
-  its(:stdout) { should match /Server:. Version:      17.11.0-ce. API version:  1.34/m }
+  its(:stdout) { should match /Client:. Version:      17.09.0-ce. API version:  1.32/m }
+  its(:stdout) { should match /Server:. Version:      17.09.0-ce. API version:  1.32/m }
   its(:exit_status) { should eq 0 }
 end
 
