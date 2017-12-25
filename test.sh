@@ -77,9 +77,6 @@ do
 done
 set -e
 
-echo Sleeping another 30 seconds
-sleep 30
-
 pushd test
 echo Running serverspec tests
 BOARD=localhost PORT=5022 bin/rspec
