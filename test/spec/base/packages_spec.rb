@@ -14,18 +14,6 @@ describe package('htop') do
   it { should be_installed }
 end
 
-describe package('occi') do
-  it { should_not be_installed }
-end
-
-describe package('device-init') do
-  it { should_not be_installed }
-end
-
-describe package('cloud-init') do
-  it { should be_installed }
-end
-
 describe package('usbutils') do
   it { should be_installed }
 end

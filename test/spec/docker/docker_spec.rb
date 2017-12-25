@@ -15,6 +15,22 @@ describe command('dpkg -l docker-ce') do
   its(:exit_status) { should eq 0 }
 end
 
+describe command('docker -v') do
+  its(:stdout) { should match /Docker version 17.09.1-ce, build/ }
+  its(:exit_status) { should eq 0 }
+end
+
+describe command('docker version') do
+  its(:stdout) { should match /Client:. Version:      17.09.1-ce. API version:  1.32/m }
+  its(:stdout) { should match /Server:. Version:      17.09.1-ce. API version:  1.32/m }
+  its(:exit_status) { should eq 0 }
+end
+
+describe command('docker info') do
+  its(:stdout) { should match /Storage Driver: overlay/ }
+  its(:exit_status) { should eq 0 }
+end
+
 describe file('/usr/bin/docker') do
   it { should be_file }
   it { should be_mode 755 }
@@ -74,22 +90,6 @@ describe file('/var/lib/docker/overlay2') do
   it { should be_directory }
   it { should be_mode 700 }
   it { should be_owned_by 'root' }
-end
-
-describe command('docker -v') do
-  its(:stdout) { should match /Docker version 17.09.1-ce, build/ }
-  its(:exit_status) { should eq 0 }
-end
-
-describe command('docker version') do
-  its(:stdout) { should match /Client:. Version:      17.09.1-ce. API version:  1.32/m }
-  its(:stdout) { should match /Server:. Version:      17.09.1-ce. API version:  1.32/m }
-  its(:exit_status) { should eq 0 }
-end
-
-describe command('docker info') do
-  its(:stdout) { should match /Storage Driver: overlay/ }
-  its(:exit_status) { should eq 0 }
 end
 
 describe interface('lo') do

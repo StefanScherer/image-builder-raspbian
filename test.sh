@@ -8,28 +8,17 @@ sudo apt-get update && \
     qemu-user-static \
     expect \
     --no-install-recommends
-    
-    
-export IMG_DATE=${IMG_DATE:-"$(date -u +%Y-%m-%d)"}
-export IMG_FILE=${IMG_DATE}-hypriotos-lite.img
 
-if [ ! -f "$IMG_FILE" ]; then
-  if [ ! -f "pi-gen/deploy/image_${IMG_DATE}-hypriotos-lite.zip" ]; then
-    echo "Testing with old artifact"
-    mkdir -p pi-gen/deploy
-    export IMG_DATE=2017-12-24
-    export IMG_FILE=${IMG_DATE}-hypriotos-lite.img
-    curl -L -o "pi-gen/deploy/image_${IMG_DATE}-hypriotos-lite.zip" https://22-115249728-gh.circle-artifacts.com/0/home/circleci/project/pi-gen/deploy/image_2017-12-24-hypriotos-lite.zip
-  fi
-  echo "Unzip image"
-  unzip "pi-gen/deploy/image_${IMG_DATE}-hypriotos-lite.zip"
-fi
+ZIP_FILE=$(ls -1 pi-gen/deploy/image_*-hypriotos-lite.zip | tail -1)
+IMG_FILE=$(ls -1 *-hypriotos-lite.img | tail -1)
+
+echo "Unzip image"
+unzip "$ZIP_FILE"
 
 PARTED_OUT=$(parted -s "${IMG_FILE}" unit b print)
 ROOT_OFFSET=$(echo "$PARTED_OUT" | grep -e '^ 2'| xargs echo -n \
 | cut -d" " -f 2 | tr -d B)
 
-echo "ROOT_OFFSET: $ROOT_OFFSET"
 sudo mkdir -p /mnt/hypriotos
 sudo mount -v -o "offset=${ROOT_OFFSET}" -t ext4 "${IMG_FILE}" /mnt/hypriotos
 sudo sed -i 's/mmcblk0p/sda/g' /mnt/hypriotos/etc/fstab 
