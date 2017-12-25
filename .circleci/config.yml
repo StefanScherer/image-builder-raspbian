@@ -7,7 +7,7 @@ jobs:
 
       - run:
           name: "Build image"
-          command: ./build.sh
+          command: echo ./build.sh
 
       - store_artifacts:
           path: pi-gen/deploy

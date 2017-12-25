@@ -14,6 +14,11 @@ export IMG_DATE=${IMG_DATE:-"$(date -u +%Y-%m-%d)"}
 export IMG_FILE=${IMG_DATE}-hypriotos-lite.img
 
 if [ ! -f "$IMG_FILE" ]; then
+  if [ ! -f "pi-gen/deploy/image_${IMG_DATE}-hypriotos-lite.zip" ]; then
+    echo "Testing with old artifact"
+    mkdir -p pi-gen/deploy
+    curl -L -o "pi-gen/deploy/image_${IMG_DATE}-hypriotos-lite.zip" https://30-115249728-gh.circle-artifacts.com/0/home/circleci/project/pi-gen/deploy/image_2017-12-25-hypriotos-lite.zip
+  fi
   echo "Unzip image"
   unzip "pi-gen/deploy/image_${IMG_DATE}-hypriotos-lite.zip"
 fi
