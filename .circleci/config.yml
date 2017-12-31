@@ -15,3 +15,7 @@ jobs:
       - run:
           name: "Test image"
           command: ./test.sh
+
+      - deploy:
+          name: Deploy
+          command: ./deploy.sh
