@@ -19,3 +19,12 @@ jobs:
       - deploy:
           name: Deploy
           command: ./deploy.sh
+
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build:
+          filters:
+            tags:
+              only: /.*/
