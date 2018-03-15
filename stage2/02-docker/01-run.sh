@@ -2,7 +2,7 @@
 
 on_chroot << EOF
 echo 'Installing Docker'
-curl -SsL https://get.docker.com | CHANNEL=stable sh
+curl -SsL https://get.docker.com | CHANNEL=edge sh
 echo 'Installing Docker Compose'
 pip install "docker-compose==1.19.0"
 
