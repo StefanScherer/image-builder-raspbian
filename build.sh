@@ -7,16 +7,20 @@ source "$scriptpath/versions.config"
 echo "Cloning $PI_GEN_REPO"
 git clone "https://github.com/$PI_GEN_REPO" pi-gen
 cd pi-gen
-echo "Checkout $PI_GEN_TAG"
-git checkout "$PI_GEN_TAG"
+if [ ! -z "$PI_GEN_TAG" ]; then
+  echo "Checkout $PI_GEN_TAG"
+  git checkout "$PI_GEN_TAG"
+fi
 
 echo "Preparing build"
 echo IMG_NAME='hypriotos' >config
 cp -r ../stage2/ .
 touch stage3/SKIP
 touch stage4/SKIP
+touch stage4/SKIP_IMAGES 
 rm -f stage4/EXPORT*
 touch stage5/SKIP
+touch stage5/SKIP_IMAGES
 rm -f stage5/EXPORT*
 
 echo "Build image"

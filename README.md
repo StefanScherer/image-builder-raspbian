@@ -1,6 +1,6 @@
 # image-builder-raspbian
 
-[![CircleCI](https://circleci.com/gh/StefanScherer/image-builder-raspbian/tree/master.svg?style=svg)](https://circleci.com/gh/StefanScherer/image-builder-raspbian/tree/master)
+[![CircleCI](https://circleci.com/gh/StefanScherer/image-builder-raspbian.svg?style=svg)](https://circleci.com/gh/StefanScherer/image-builder-raspbian)
 
 Build and test Raspberry Pi SD card image in the cloud
 
