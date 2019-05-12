@@ -27,6 +27,10 @@ if [ ! -z "$LOCAL_PIP_PROXY" ]
 then
   echo "PIP_PROXY=$LOCAL_PIP_PROXY" >> config
 fi
+echo "FIRST_USER_NAME=pirate" >> config
+echo "FIRST_USER_PASS=hypriot" >> config
+echo "ENABLE_SSH=1" >> config
+#echo 'STAGE_LIST="stage0 stage1 stage2"' >> config
 cp -r ../stage2/ .
 touch stage3/SKIP
 touch stage4/SKIP
