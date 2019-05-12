@@ -18,6 +18,15 @@ fi
 
 echo "Preparing build"
 echo IMG_NAME='hypriotos-devops-acadamy' >config
+# e.g. LOCAL_APT_PROXY="http://YOUR_FQDN:3142" ./build.sh
+if [ ! -z "$LOCAL_APT_PROXY" ]
+then
+  echo "APT_PROXY=$LOCAL_APT_PROXY" >> config
+fi
+if [ ! -z "$LOCAL_PIP_PROXY" ]
+then
+  echo "PIP_PROXY=$LOCAL_PIP_PROXY" >> config
+fi
 cp -r ../stage2/ .
 touch stage3/SKIP
 touch stage4/SKIP
