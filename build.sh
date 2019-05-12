@@ -17,7 +17,7 @@ if [ ! -z "$PI_GEN_TAG" ]; then
 fi
 
 echo "Preparing build"
-echo IMG_NAME='hypriotos' >config
+echo IMG_NAME='hypriotos-devops-acadamy' >config
 cp -r ../stage2/ .
 touch stage3/SKIP
 touch stage4/SKIP
