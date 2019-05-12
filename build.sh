@@ -32,13 +32,13 @@ echo "FIRST_USER_PASS=hypriot" >> config
 echo "ENABLE_SSH=1" >> config
 #echo 'STAGE_LIST="stage0 stage1 stage2"' >> config
 cp -r ../stage2/ .
-touch stage3/SKIP
-touch stage4/SKIP
-touch stage4/SKIP_IMAGES 
-rm -f stage4/EXPORT*
-touch stage5/SKIP
-touch stage5/SKIP_IMAGES
-rm -f stage5/EXPORT*
+#touch stage3/SKIP
+#touch stage4/SKIP
+#touch stage4/SKIP_IMAGES
+#rm -f stage4/EXPORT*
+#touch stage5/SKIP
+#touch stage5/SKIP_IMAGES
+#rm -f stage5/EXPORT*
 
 echo "Build image"
 if [[ $(docker ps \
