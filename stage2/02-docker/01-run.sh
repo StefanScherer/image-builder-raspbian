@@ -1,10 +1,11 @@
 #!/bin/bash -e
 
 on_chroot << EOF
-echo 'Installing Docker'
-curl -SsL https://get.docker.com | CHANNEL=edge sh
-echo 'Installing Docker Compose'
-pip install "docker-compose==1.19.0"
+if ! docker -v
+then
+	echo 'Installing Docker'
+	curl -SsL https://get.docker.com | sh
+fi
 
 # set default locales to 'en_US.UTF-8'
 echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen
