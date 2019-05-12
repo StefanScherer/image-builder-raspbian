@@ -5,6 +5,10 @@ scriptpath=$(cd $(dirname $0); pwd -P)
 source "$scriptpath/versions.config"
 
 echo "Cloning $PI_GEN_REPO"
+if [ -d pi-gen ]
+then
+  rm -rf pi-gen
+fi
 git clone "https://github.com/$PI_GEN_REPO" pi-gen
 cd pi-gen
 if [ ! -z "$PI_GEN_TAG" ]; then
