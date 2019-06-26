@@ -41,5 +41,13 @@ cp -r ../stage2/ .
 #rm -f stage5/EXPORT*
 
 echo "Build image"
-./build.sh
+if [[ $(docker ps \
+        --all \
+        --filter "name=^pigen_work" \
+        --format '{{.Names}}' ) == pigen_work ]]
+then
+  CONTINUE=1 ./build-docker.sh
+else
+  ./build-docker.sh
+fi
 ls -l deploy
