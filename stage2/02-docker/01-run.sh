@@ -8,15 +8,15 @@ then
 	curl -SsL https://get.docker.com | sh
 fi
 
+#docker pull hello-world
+
+#Load noder-red docker image for raspbian
 #docker pull nodered/node-red-docker:rpi
 
-#echo 'Installing Docker Compose'
-pip3 install docker-compose
-
 # set default locales to 'en_US.UTF-8'
-echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen
-locale-gen
+#echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen
+#locale-gen
 
-echo 'locales locales/default_environment_locale select en_US.UTF-8' | debconf-set-selections
-dpkg-reconfigure -f noninteractive locales
+#echo 'locales locales/default_environment_locale select en_US.UTF-8' | debconf-set-selections
+#dpkg-reconfigure -f noninteractive locales
 EOF
