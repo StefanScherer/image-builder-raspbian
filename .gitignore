@@ -8,3 +8,4 @@
 pi-gen
 kernel-qemu-4.*
 apt-cacher-ng/
+deploy/
