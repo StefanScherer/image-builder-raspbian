@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+export DEBIAN_FRONTEND=noninteractive
 scriptpath=$(cd $(dirname $0); pwd -P)
 source "$scriptpath/versions.config"
 VAGRANT_HOME=/home/vagrant
