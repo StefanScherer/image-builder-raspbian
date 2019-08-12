@@ -90,7 +90,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision :reload
 
   config.vm.provision "shell", inline: <<-SHELL
-    #export DEBIAN_FRONTEND=noninteractive
+    export DEBIAN_FRONTEND=noninteractive
     apt autoremove --yes
     #install base packages not in bentu/ubuntu-19.04
     apt install --yes bash-completion git-core vim
@@ -127,7 +127,7 @@ Vagrant.configure("2") do |config|
     # disco not in docker repro $(lsb_release -cs) replaced wiht cosmic
     add-apt-repository \
       "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-      disco \
+      $(lsb_release -cs) \
       stable"
     apt update
     apt install --yes docker-ce docker-ce-cli containerd.io docker-compose
