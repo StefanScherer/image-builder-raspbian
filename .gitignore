@@ -9,3 +9,5 @@ pi-gen
 kernel-qemu-4.*
 apt-cacher-ng/
 deploy/
+*.vdi
+build.log
