@@ -23,5 +23,5 @@ ls -l deploy
 cp --recursive --backup deploy $scriptpath/
 if [ -d $VAGRANT_HOME/apt-cacher-ng ]
 then
-  rsync -av --progress --delete $VAGRANT_HOME/apt-cacher-ng /vagrant/
+  rsync -av --delete $VAGRANT_HOME/apt-cacher-ng /vagrant/
 fi

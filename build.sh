@@ -15,5 +15,5 @@ ls -l $PI_GEN/deploy
 cp --recursive --backup $PI_GEN/deploy $scriptpath/
 if [ -d $VAGRANT_HOME/apt-cacher-ng ]
 then
-  rsync -av --progress --delete $VAGRANT_HOME/apt-cacher-ng /vagrant/
+  rsync -av --delete $VAGRANT_HOME/apt-cacher-ng /vagrant/
 fi
