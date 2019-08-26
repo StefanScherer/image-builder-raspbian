@@ -22,6 +22,19 @@ Vagrant.configure("2") do |config|
   # boxes at https://vagrantcloud.com/search.
   config.vm.box = "bento/ubuntu-19.04"
   #config.vm.box = "bento/debian-10.0-i386"
+  if Vagrant.has_plugin?("vagrant-proxyconf")
+    config.proxy.enabled = { yum: false, git: false, docker: false }
+    config.apt_proxy.http     = "http://192.168.56.216:3142/"
+    #config.proxy.https    = "http://192.168.0.2:3128/"
+    #config.proxy.no_proxy = "localhost,127.0.0.1,.example.com"
+    config.apt_proxy.https = "DIRECT"
+  end
+  config.persistent_storage.enabled = true
+  config.persistent_storage.location = "./pigenhdd.vdi"
+  config.persistent_storage.size = 150000
+  config.persistent_storage.mountname = 'pigen'
+  config.persistent_storage.filesystem = 'ext4'
+  config.persistent_storage.mountpoint = '/home/vagrant/deploy'
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
