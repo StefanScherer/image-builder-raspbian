@@ -4,7 +4,7 @@ export DEBIAN_FRONTEND=noninteractive
 scriptpath=$(cd $(dirname $0); pwd -P)
 source "$scriptpath/versions.config"
 VAGRANT_HOME=/home/vagrant
-PI_GEN=$VAGRANT_HOME/pi-gen
+PI_GEN=$VAGRANT_HOME/deploy/pi-gen
 #Load pi-gen repro and change into it.
 source $scriptpath/build-source.sh
 

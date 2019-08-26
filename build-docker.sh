@@ -1,8 +1,9 @@
 #!/bin/bash
+set -e
 scriptpath=$(cd $(dirname $0); pwd -P)
 source "$scriptpath/versions.config"
 VAGRANT_HOME=/home/vagrant
-PI_GEN=$VAGRANT_HOME/pi-gen-docker
+PI_GEN=$VAGRANT_HOME/deploy/pi-gen-docker
 #Load pi-gen repro and change into it
 source $scriptpath/build-source.sh
 

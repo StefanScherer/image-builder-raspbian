@@ -9,7 +9,7 @@ Vagrant.configure("2") do |config|
 
   # Require the reboot plugin.
   #Vagrant.require_plugin "vagrant-reload"
-  required_plugins = %w( vagrant-reload )
+  required_plugins = %w( vagrant-reload vagrant-persistent-storage )
   required_plugins.each do |plugin|
     system "vagrant plugin install #{plugin}" unless Vagrant.has_plugin? plugin
   end
@@ -84,6 +84,7 @@ Vagrant.configure("2") do |config|
     #Update and upgrade ubuntu system.
     apt update
     apt upgrade --yes
+    chown -R vagrant: /home/vagrant/deploy
   SHELL
 
   # Run a reboot
@@ -135,19 +136,20 @@ Vagrant.configure("2") do |config|
     usermod -aG docker vagrant
 
     #Setup and start apt-cacher-ng with docker-compose
-    VAGRANT_HOME=/home/vagrant
-    rsync -av /vagrant/docker-compose.yml $VAGRANT_HOME/
+    PIGEN_DEPLOY=/home/vagrant/deploy
+    rsync -av /vagrant/docker-compose.yml $PIGEN_DEPLOY/
     # TODO: Set up rights systemd-network:root 755 dirs and 655 files
     if [ -d /vagrant/apt-cacher-ng ]
     then
-      rsync -av --progress /vagrant/apt-cacher-ng $VAGRANT_HOME/
+      rsync -av /vagrant/apt-cacher-ng $PIGEN_DEPLOY/
     fi
     if [[ ! $(docker ps \
             --all \
             --filter "name=^vagrant_apt-cacher-ng" \
             --format '{{.Names}}' ) == vagrant_apt-cacher-ng_1 ]]
     then
-      docker-compose --file $VAGRANT_HOME/docker-compose.yml up -d
+      cd $PIGEN_DEPLOY
+      docker-compose --file $PIGEN_DEPLOY/docker-compose.yml up -d
     fi
 
     su --command bash --command 'LOCAL_APT_PROXY="http://172.17.0.1:3142" /vagrant/build.sh' vagrant
