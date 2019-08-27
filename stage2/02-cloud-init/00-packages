@@ -1,1 +1,2 @@
-#cloud-init
+cloud-init
+ssh-import-id
