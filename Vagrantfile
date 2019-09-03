@@ -165,7 +165,7 @@ Vagrant.configure("2") do |config|
       docker-compose --file $PIGEN_DEPLOY/docker-compose.yml up -d
     fi
 
-    su --command bash --command 'LOCAL_APT_PROXY="http://172.17.0.1:3142" /vagrant/build.sh' vagrant
+    su --command bash --command 'LOCAL_APT_PROXY="http://172.17.0.1:3142" time /vagrant/build.sh | tee /vagrant/build.log' vagrant
     #
   SHELL
 end
