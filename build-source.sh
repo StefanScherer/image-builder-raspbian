@@ -32,6 +32,8 @@ if [ ! -z "$LOCAL_PIP_PROXY" ]
 then
   echo "PIP_PROXY=$LOCAL_PIP_PROXY" >> config
 fi
+
+echo DEPLOY_ZIP=0 >> config
 #echo "FIRST_USER_NAME=pirate" >> config
 #echo "FIRST_USER_PASS=hypriot" >> config
 echo "ENABLE_SSH=1" >> config
