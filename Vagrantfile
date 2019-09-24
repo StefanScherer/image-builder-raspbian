@@ -90,17 +90,20 @@ Vagrant.configure("2") do |config|
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
+    export DEBIAN_FRONTEND=noninteractive
     #Setup locale for raspberry installer
     locale-gen en_GB.UTF-8
     update-locale LANG=en_GB.UTF-8
     update-locale LANGUAGE=en_GB.UTF-8
     update-locale LC_CTYPE=en_GB.UTF-8
     update-locale LC_ALL=en_GB.UTF-8
+    dpkg-reconfigure locales >/dev/null
 
-    #Update and upgrade ubuntu system.
-    apt update
-    apt upgrade --yes
+    echo "Update and upgrade ubuntu system."
+    apt-get update  >/dev/null
+    apt-get dist-upgrade --yes  >/dev/null
     chown -R vagrant: /home/vagrant/deploy
+    echo "Update ended. Rebooting system"
   SHELL
 
   # Run a reboot
@@ -108,12 +111,9 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision "shell", inline: <<-SHELL
     export DEBIAN_FRONTEND=noninteractive
-    apt autoremove --yes
+    apt-get autoremove --yes  >/dev/null
     #install base packages not in bentu/ubuntu-19.04
-    apt install --yes bash-completion git-core vim
-    #Could not installed because installer Ask for yes or no.
-    #apt install --yes apt-cacher-ng
-    #systemctl reload apt-cacher-ng
+    apt-get install --yes bash-completion git-core vim >/dev/null
 
     #dependencies for pi-gen build.sh
     #**(*) Warning:** please note that there is currently an issue when building with the
@@ -133,31 +133,32 @@ Vagrant.configure("2") do |config|
     #
     #For more info refer to: https://github.com/RPi-Distro/pi-gen/issues/271
     dpkg --add-architecture i386
-    apt update
-    apt install --yes  coreutils quilt parted qemu-user-static:i386 \
+    apt-get update >/dev/null
+    apt-get install --yes --quiet  coreutils quilt parted qemu-user-static:i386 \
         debootstrap zerofree zip dosfstools bsdtar libcap2-bin grep rsync \
-        xz-utils file git curl debian-archive-keyring
+        xz-utils file git curl debian-archive-keyring >/dev/null
     #Install Docker
-    apt install --yes apt-transport-https ca-certificates curl gnupg2 \
-        software-properties-common
+    apt-get install --yes --quiet apt-transport-https ca-certificates curl gnupg2 \
+        software-properties-common >/dev/null
     curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
     # disco not in docker repro $(lsb_release -cs) replaced wiht cosmic
     add-apt-repository \
       "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
       $(lsb_release -cs) \
-      stable"
-    apt update
-    apt install --yes docker-ce docker-ce-cli containerd.io docker-compose
-    docker run hello-world
+      stable" >/dev/null
+    apt-get update >/dev/null
+    apt-get install --yes --quiet docker-ce docker-ce-cli containerd.io \
+        docker-compose >/dev/null
+    # docker run hello-world
     usermod -aG docker vagrant
 
     #Setup and start apt-cacher-ng with docker-compose
     PIGEN_DEPLOY=/home/vagrant/deploy
-    rsync -av /vagrant/docker-compose.yml $PIGEN_DEPLOY/
+    rsync --archive --checksum --quiet /vagrant/docker-compose.yml $PIGEN_DEPLOY/
     # TODO: Set up rights systemd-network:root 755 dirs and 655 files
     if [ -d /vagrant/apt-cacher-ng ]
     then
-      rsync -av /vagrant/apt-cacher-ng $PIGEN_DEPLOY/
+      rsync --archive --checksum --delete --quiet /vagrant/apt-cacher-ng $PIGEN_DEPLOY/
     fi
     if [[ ! $(docker ps \
             --all \
@@ -167,8 +168,12 @@ Vagrant.configure("2") do |config|
       cd $PIGEN_DEPLOY
       docker-compose --file $PIGEN_DEPLOY/docker-compose.yml up -d
     fi
-
+    sed -i 's/nameserver\s.*$/nameserver 9.9.9.9/g' /etc/resolv.conf
     su --command bash --command 'LOCAL_APT_PROXY="http://172.17.0.1:3142" time /vagrant/build.sh | tee /vagrant/build.log' vagrant
+    if [ -d $PIGEN_DEPLOY/apt-cacher-ng ]
+    then
+      rsync --archive --checksum --delete --quiet $PIGEN_DEPLOY/apt-cacher-ng /vagrant/
+    fi
     #
   SHELL
 end
