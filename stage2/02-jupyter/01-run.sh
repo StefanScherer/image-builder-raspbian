@@ -6,5 +6,18 @@ pip3 install \
   jupyter \
   jupyterlab \
   pipenv \
-  six
+  readline \
+  six \
+  paho-mqtt \
+  tweepy \
+  ExpectException \
+  psutil
+pip3 download \
+    ipyparallel \
+    bash_kernel \
+    ipython-sql \
+    ihtml \
+    RISE \
+    jupyter_contrib_nbextensions \
+#   ipyleaflet
 EOF
