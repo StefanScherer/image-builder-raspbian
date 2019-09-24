@@ -4,16 +4,19 @@
 avahi-utils
 avahi-daemon
 acl
+bc
 build-essential
 curl
 cowsay
 debian-keyring
 debian-archive-keyring
 dphys-swapfile
+doc-base
 expect
 git
 gettext
 ieee-data
+jq
 libjpeg62-turbo
 libjpeg62-turbo-dev
 libffi-dev
@@ -38,16 +41,20 @@ sl
 sshpass
 sense-hat
 screen
+stress
+stow
 tree
 tidy
 tmux
 vim
 wiringpi
+wkhtmltopdf
 zip
 #Install inspec dependencies
 ruby
 ruby-dev
 gem
+git
 xvfb
 firefox-esr
 libfontconfig1
@@ -56,6 +63,7 @@ libfreetype6
 #- libicu63
 libssl1.0.2
 fontconfig
+zip
 zlib1g-dev
 zlib1g
 python3-pip
@@ -72,9 +80,15 @@ libgif-dev
 build-essential
 g++
 #Ensure tex dependencies are installed
+pandoc
+pandoc-citeproc
 texlive
 texlive-latex-extra
 dvipng
 texlive-xetex
 texlive-latex-recommended
 texlive-fonts-recommended
+texlive-latex-recommended
+texlive-xetex
+texlive-luatex
+texlive-latex-extra
