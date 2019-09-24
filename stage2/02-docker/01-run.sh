@@ -36,4 +36,5 @@ fi
 
 #echo 'locales locales/default_environment_locale select en_US.UTF-8' | debconf-set-selections
 #dpkg-reconfigure -f noninteractive locales
+usermod -aG docker ${FIRST_USER_NAME}
 EOF
