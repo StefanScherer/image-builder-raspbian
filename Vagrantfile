@@ -29,6 +29,9 @@ Vagrant.configure("2") do |config|
     #config.proxy.no_proxy = "localhost,127.0.0.1,.example.com"
     config.apt_proxy.https = "DIRECT"
   end
+  if Vagrant.has_plugin?("vagrant-vbguest")
+    config.vbguest.auto_update = false
+  end
   config.persistent_storage.enabled = true
   config.persistent_storage.location = "./pigenhdd.vdi"
   config.persistent_storage.size = 150000
