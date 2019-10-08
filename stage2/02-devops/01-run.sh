@@ -1,6 +1,10 @@
 #!/bin/bash -e
 
 on_chroot << EOF
+
+echo Patching certs...
+c_rehash /etc/ssl/certs
+
 echo 'Installing Ansible'
 pip3 install ansible \
   paho-mqtt \

@@ -36,6 +36,7 @@ python3-blinkt
 python-blinkt
 raspi-gpio
 rsync
+pigpiod
 sudo
 sl
 sshpass
