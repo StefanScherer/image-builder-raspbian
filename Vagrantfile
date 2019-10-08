@@ -151,6 +151,10 @@ Vagrant.configure("2") do |config|
         docker-compose >/dev/null
     # docker run hello-world
     usermod -aG docker vagrant
+    rsync -av /var/lib/docker/volumes /home/vagrant/deploy/
+    rm -rf /var/lib/docker/volumes/*
+    #mkdir /var/lib/docker/volumes
+    mount -o bind /home/vagrant/deploy/volumes /var/lib/docker/volumes
 
     #Setup and start apt-cacher-ng with docker-compose
     PIGEN_DEPLOY=/home/vagrant/deploy
@@ -169,7 +173,8 @@ Vagrant.configure("2") do |config|
       docker-compose --file $PIGEN_DEPLOY/docker-compose.yml up -d
     fi
     sed -i 's/nameserver\s.*$/nameserver 9.9.9.9/g' /etc/resolv.conf
-    su --command bash --command 'LOCAL_APT_PROXY="http://172.17.0.1:3142" time /vagrant/build.sh | tee /vagrant/build.log' vagrant
+    modprobe binfmt_misc
+    su --command bash --command 'LOCAL_APT_PROXY="http://172.17.0.1:3142" time /vagrant/build-docker.sh | tee /vagrant/build.log' vagrant
     if [ -d $PIGEN_DEPLOY/apt-cacher-ng ]
     then
       rsync --archive --checksum --delete --quiet $PIGEN_DEPLOY/apt-cacher-ng /vagrant/
