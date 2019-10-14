@@ -15,9 +15,9 @@ if [[ $(docker ps \
         --filter "name=^pigen_work" \
         --format '{{.Names}}' ) == pigen_work ]]
 then
-  CONTINUE=1 ./build-docker.sh
+  CONTINUE=1 sudo ./build-docker.sh
 else
-  ./build-docker.sh
+  sudo ./build-docker.sh
 fi
 ls -l deploy
 cp --recursive --backup deploy $scriptpath/
