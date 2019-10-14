@@ -1,6 +1,8 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+my_ip_address = `ip route get 1.2.3.4 | awk '{print $7}' | head -n 1`.gsub("\n", '')
+
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
 # configures the configuration version (we support older styles for
 # backwards compatibility). Please don't change it unless you know what
@@ -24,8 +26,8 @@ Vagrant.configure("2") do |config|
   #config.vm.box = "bento/debian-10.0-i386"
   if Vagrant.has_plugin?("vagrant-proxyconf")
     config.proxy.enabled = { yum: false, git: false, docker: false }
-    config.apt_proxy.http     = "http://192.168.56.216:3142/"
-    #config.proxy.https    = "http://192.168.0.2:3128/"
+    config.apt_proxy.http     = "http://#{my_ip_address}:3142/"
+    #config.proxy.https    = "http://#{my_ip_address}:3128/"
     #config.proxy.no_proxy = "localhost,127.0.0.1,.example.com"
     config.apt_proxy.https = "DIRECT"
   end
