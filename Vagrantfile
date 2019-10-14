@@ -93,8 +93,8 @@ Vagrant.configure("2") do |config|
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
     export DEBIAN_FRONTEND=noninteractive
-    #Setup locale for raspberry installer
-    locale-gen en_GB.UTF-8
+    echo "Setup locale for raspberry installer"
+    locale-gen en_GB.UTF-8 >/dev/null
     update-locale LANG=en_GB.UTF-8
     update-locale LANGUAGE=en_GB.UTF-8
     update-locale LC_CTYPE=en_GB.UTF-8
@@ -112,9 +112,10 @@ Vagrant.configure("2") do |config|
   config.vm.provision :reload
 
   config.vm.provision "shell", inline: <<-SHELL
+    echo "Remove not needed packages"
     export DEBIAN_FRONTEND=noninteractive
     apt-get autoremove --yes  >/dev/null
-    #install base packages not in bentu/ubuntu-19.04
+    echo "Install base packages not in bentu/ubuntu-19.04"
     apt-get install --yes bash-completion git-core vim >/dev/null
 
     #dependencies for pi-gen build.sh
@@ -134,12 +135,14 @@ Vagrant.configure("2") do |config|
     #Also note that the included Dockerfile in pi-gen already includes this workaround.
     #
     #For more info refer to: https://github.com/RPi-Distro/pi-gen/issues/271
+    echo "Add i386"
     dpkg --add-architecture i386
     apt-get update >/dev/null
+    echo "Install pi-gen dependencies"
     apt-get install --yes --quiet  coreutils quilt parted qemu-user-static:i386 \
         debootstrap zerofree zip dosfstools bsdtar libcap2-bin grep rsync \
         xz-utils file git curl debian-archive-keyring >/dev/null
-    #Install Docker
+    echo "Install Docker"
     apt-get install --yes --quiet apt-transport-https ca-certificates curl gnupg2 \
         software-properties-common >/dev/null
     curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
@@ -151,14 +154,15 @@ Vagrant.configure("2") do |config|
     apt-get update >/dev/null
     apt-get install --yes --quiet docker-ce docker-ce-cli containerd.io \
         docker-compose >/dev/null
-    # docker run hello-world
     usermod -aG docker vagrant
-    rsync -av /var/lib/docker/volumes /home/vagrant/deploy/
-    rm -rf /var/lib/docker/volumes/*
+    docker run hello-world
+    #usermod -aG docker vagrant
+    #rsync -av /var/lib/docker/volumes /home/vagrant/deploy/
+    #rm -rf /var/lib/docker/volumes/*
     #mkdir /var/lib/docker/volumes
-    mount -o bind /home/vagrant/deploy/volumes /var/lib/docker/volumes
+    #mount -o bind /home/vagrant/deploy/volumes /var/lib/docker/volumes
 
-    #Setup and start apt-cacher-ng with docker-compose
+    echo "Setup and start apt-cacher-ng with docker-compose"
     PIGEN_DEPLOY=/home/vagrant/deploy
     rsync --archive --checksum --quiet /vagrant/docker-compose.yml $PIGEN_DEPLOY/
     # TODO: Set up rights systemd-network:root 755 dirs and 655 files
@@ -174,9 +178,12 @@ Vagrant.configure("2") do |config|
       cd $PIGEN_DEPLOY
       docker-compose --file $PIGEN_DEPLOY/docker-compose.yml up -d
     fi
+    echo "Setup dns server"
     sed -i 's/nameserver\s.*$/nameserver 9.9.9.9/g' /etc/resolv.conf
+    echo "Run pi-gen"
     modprobe binfmt_misc
     su --command bash --command 'LOCAL_APT_PROXY="http://172.17.0.1:3142" time /vagrant/build-docker.sh | tee /vagrant/build.log' vagrant
+    echo "Backup apt-cacher-ng files"
     if [ -d $PIGEN_DEPLOY/apt-cacher-ng ]
     then
       rsync --archive --checksum --delete --quiet $PIGEN_DEPLOY/apt-cacher-ng /vagrant/
