@@ -65,3 +65,4 @@ cp -r $scriptpath/stage2/ .
 #touch stage5/SKIP
 #touch stage5/SKIP_IMAGES
 #rm -f stage5/EXPORT*
+rm -f stage*/EXPORT_NOOBS
