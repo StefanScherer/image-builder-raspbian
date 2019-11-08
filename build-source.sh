@@ -51,8 +51,8 @@ echo KEYBOARD_LAYOUT='"German (DE)"' >> config
 echo TIMEZONE_DEFAULT='"Europe/Berlin"' >> config
 
 
-#echo "FIRST_USER_NAME=pirate" >> config
-#echo "FIRST_USER_PASS=hypriot" >> config
+echo "FIRST_USER_NAME=pirate" >> config
+echo "FIRST_USER_PASS=hypriot" >> config
 
 echo "ENABLE_SSH=1" >> config
 

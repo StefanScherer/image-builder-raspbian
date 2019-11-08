@@ -1,8 +1,21 @@
 # image-builder-raspbian
 
-[![CircleCI](https://circleci.com/gh/StefanScherer/image-builder-raspbian.svg?style=svg)](https://circleci.com/gh/StefanScherer/image-builder-raspbian)
 
-Build and test Raspberry Pi SD card image in the cloud
+Build and test Raspberry Pi SD card image
+
+Dependecies:
+
+  * vagrant
+
+  * VirtualBox
+
+Build:
+
+```
+run vagrant destroy --force && vagrant up
+```
+
+
 
 * GitHub
   * [x] Use [RPi-Distro/pi-gen](https://github.com/RPi-Distro/pi-gen) for build
@@ -10,10 +23,12 @@ Build and test Raspberry Pi SD card image in the cloud
     * [x] Docker
     * [x] cloud-init
   * [x] Provide releases
-* CircleCI
-  * [x] Build SD card image
-  * [x] Test SD card image
-  * [x] Provide build artifacts
+* CircleCI (removed by kraeml)
+  * [] Build SD card image
+  * [] Test SD card image
+  * [] Provide build artifacts
+
+CircleCI not working yet. Because you have to use ubuntu 18.04 or better 19.04
 
 ## Testing the image
 

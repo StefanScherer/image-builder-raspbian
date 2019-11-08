@@ -2,7 +2,6 @@
 
 on_chroot << EOF
 echo 'Installing Docker'
-c_rehash /etc/ssl/certs
 
 if ! docker -v
 then
