@@ -1,13 +1,13 @@
 #!/bin/bash
 set -e
 
-if [[ ! $(docker ps \
-        --all \
-        --filter "name=^vagrant_apt-cacher-ng" \
-        --format '{{.Names}}' ) == deploy_apt-cacher-ng_1 ]]
-then
-  docker-compose --file $VAGRANT_HOME/deploy/docker-compose.yml up -d
-fi
+#if [[ ! $(docker ps \
+#        --all \
+#        --filter "name=^vagrant_apt-cacher-ng" \
+#        --format '{{.Names}}' ) == deploy_apt-cacher-ng_1 ]]
+#then
+#  docker-compose --file $VAGRANT_HOME/deploy/docker-compose.yml up -d
+#fi
 
 echo "Cloning $PI_GEN_REPO"
 if [ -d ${PI_GEN} ]
