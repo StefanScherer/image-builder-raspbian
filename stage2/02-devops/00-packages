@@ -67,7 +67,6 @@ fontconfig
 zip
 zlib1g-dev
 zlib1g
-python3-pip
 #Ensure sqlite3 and mongodb is installed
 sqlite3
 mongodb-server
@@ -83,6 +82,8 @@ g++
 #Ensure tex dependencies are installed
 pandoc
 pandoc-citeproc
+#ToDo error while install texlive
+context
 texlive
 texlive-latex-extra
 dvipng
