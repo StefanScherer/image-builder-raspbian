@@ -56,6 +56,8 @@ echo "FIRST_USER_PASS=hypriot" >> config
 
 echo "ENABLE_SSH=1" >> config
 
+sed -i 's/#!\/bin\/bash -e/#!\/bin\/bash -e\n\nsync\nsleep 5/' export-image/prerun.sh
+sed -i '/^ROOT_SIZE=$(.*$/a ROOT_SIZE=$((ROOT_SIZE + 128 * 1024 * 1024))' export-image/prerun.sh
 cp -r $scriptpath/stage2/ .
 #echo 'STAGE_LIST="stage0 stage1 stage2"' >> config
 #touch stage3/SKIP
