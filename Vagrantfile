@@ -9,10 +9,10 @@ Vagrant.configure("2") do |config|
 
   # Require the reboot plugin.
   #Vagrant.require_plugin "vagrant-reload"
-  required_plugins = %w( vagrant-reload, vagrant-proxyconf)
-  required_plugins.each do |plugin|
-    system "vagrant plugin install #{plugin}" unless Vagrant.has_plugin? plugin
-  end
+  #required_plugins = %w( vagrant-reload, vagrant-proxyconf)
+  #required_plugins.each do |plugin|
+  #  system "vagrant plugin install #{plugin}" unless Vagrant.has_plugin? plugin
+  #end
 
   # The most common configuration options are documented and commented below.
   # For a complete reference, please see the online documentation at
@@ -20,7 +20,7 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "file://builds/buster-10.1_rpibuilder-4_virtualbox.box"
+  config.vm.box = "file://builds/buster-10.2_rpibuilder-5_virtualbox.box"
   if Vagrant.has_plugin?("vagrant-proxyconf")
     config.proxy.enabled = { yum: false, git: false, docker: false }
     config.apt_proxy.http     = "http://127.0.0.1:3142/"
@@ -41,30 +41,6 @@ Vagrant.configure("2") do |config|
   # NOTE: This will enable public access to the opened port
   #config.vm.network "forwarded_port", guest: 3142, host: 33142
 
-  # Create a forwarded port mapping which allows access to a specific port
-  # within the machine from a port on the host machine and only allow access
-  # via 127.0.0.1 to disable public access
-  # config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
-
-  # Create a private network, which allows host-only access to the machine
-  # using a specific IP.
-  # config.vm.network "private_network", ip: "192.168.33.10"
-
-  # Create a public network, which generally matched to bridged network.
-  # Bridged networks make the machine appear as another physical device on
-  # your network.
-  # config.vm.network "public_network"
-
-  # Share an additional folder to the guest VM. The first argument is
-  # the path on the host to the actual folder. The second argument is
-  # the path on the guest to mount the folder. And the optional third
-  # argument is a set of non-required options.
-  # config.vm.synced_folder "../data", "/vagrant_data"
-
-  # Provider-specific configuration so you can fine-tune various
-  # backing providers for Vagrant. These expose provider-specific options.
-  # Example for VirtualBox:
-  #
   config.vm.provider "virtualbox" do |vb|
     # Display the VirtualBox GUI when booting the machine
     #vb.gui = true
@@ -113,10 +89,10 @@ Vagrant.configure("2") do |config|
     echo "Install pi-gen dependencies"
     apt-get install --yes --quiet  coreutils quilt parted qemu-user-static \
         debootstrap zerofree zip dosfstools bsdtar libcap2-bin grep rsync \
-        xz-utils file git curl debian-archive-keyring >/dev/null
+        xz-utils file git curl debian-archive-keyring bc >/dev/null
     echo "Run pi-gen"
     modprobe binfmt_misc
     modprobe loop
-    su --preserve-environment --command bash --command 'time LOCAL_APT_PROXY="$APT_PROXY" /vagrant/build.sh | tee /vagrant/build.log' vagrant
+    su --command bash --command 'time LOCAL_APT_PROXY="$APT_PROXY" /vagrant/build.sh | tee /vagrant/build.log' vagrant
   SHELL
 end
