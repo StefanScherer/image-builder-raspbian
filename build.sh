@@ -1,28 +1,19 @@
 #!/bin/bash
 set -e
-
+export DEBIAN_FRONTEND=noninteractive
 scriptpath=$(cd $(dirname $0); pwd -P)
 source "$scriptpath/versions.config"
+VAGRANT_HOME=/home/vagrant
+PI_GEN=$VAGRANT_HOME/deploy/pi-gen
+#Load pi-gen repro and change into it.
+source $scriptpath/build-source.sh
 
-echo "Cloning $PI_GEN_REPO"
-git clone "https://github.com/$PI_GEN_REPO" pi-gen
-cd pi-gen
-if [ ! -z "$PI_GEN_TAG" ]; then
-  echo "Checkout $PI_GEN_TAG"
-  git checkout "$PI_GEN_TAG"
-fi
-
-echo "Preparing build"
-echo IMG_NAME='hypriotos' >config
-cp -r ../stage2/ .
-touch stage3/SKIP
-touch stage4/SKIP
-touch stage4/SKIP_IMAGES 
-rm -f stage4/EXPORT*
-touch stage5/SKIP
-touch stage5/SKIP_IMAGES
-rm -f stage5/EXPORT*
 
 echo "Build image"
-./build-docker.sh
-ls -l deploy
+sudo ./build.sh
+ls -l $PI_GEN/deploy
+cp --recursive --backup $PI_GEN/deploy $scriptpath/
+if [ -d /var/cache/apt-cacher-ng ]
+then
+  rsync -av --delete /var/cache/apt-cacher-ng /vagrant/
+fi

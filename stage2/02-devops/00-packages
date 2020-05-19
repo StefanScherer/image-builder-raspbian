@@ -1,0 +1,96 @@
+#Base Packages
+#python-pip
+#python-dev
+avahi-utils
+avahi-daemon
+acl
+bc
+build-essential
+curl
+cowsay
+debian-keyring
+debian-archive-keyring
+dphys-swapfile
+doc-base
+expect
+git
+gettext
+ieee-data
+jq
+libjpeg62-turbo
+libjpeg62-turbo-dev
+libffi-dev
+libssl-dev
+lsof
+lsb-release
+mosquitto
+mosquitto-clients
+nmap
+python-rpi.gpio
+python3-rpi.gpio
+python-pexpect
+#python-dev
+python3-dev
+python3-pip
+python3-blinkt
+python-blinkt
+raspi-gpio
+rsync
+pigpiod
+sudo
+sl
+sshpass
+sense-hat
+screen
+stress
+stow
+tree
+tidy
+tmux
+vim
+wiringpi
+wkhtmltopdf
+zip
+#Install inspec dependencies
+ruby
+ruby-dev
+gem
+git
+xvfb
+firefox-esr
+libfontconfig1
+libfreetype6
+#ToDo inspec could not installed in buster
+#- libicu63
+libssl1.0.2
+fontconfig
+zip
+zlib1g-dev
+zlib1g
+#Ensure sqlite3 and mongodb is installed
+sqlite3
+mongodb-server
+#Ensure etherpad and etherdraw is installed
+libreoffice
+abiword
+libcairo2-dev
+libjpeg-dev
+libpango1.0-dev
+libgif-dev
+build-essential
+g++
+#Ensure tex dependencies are installed
+pandoc
+pandoc-citeproc
+#ToDo error while install texlive
+context
+texlive
+texlive-latex-extra
+dvipng
+texlive-xetex
+texlive-latex-recommended
+texlive-fonts-recommended
+texlive-latex-recommended
+texlive-xetex
+texlive-luatex
+texlive-latex-extra
